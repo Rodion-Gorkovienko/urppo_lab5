@@ -103,7 +103,7 @@ def one_frame_processing(frame_i):
 				# cur_target_pixel[1] = 0
 				# cur_target_pixel[2] = 255
 				changed_pixels.append(Changed_pixel(str_i, col_i,
-													np.sqrt(np.sum(np.square(cur_sub)))))
+					np.sqrt(np.sum(np.square(cur_sub)))))
 	changed_pixels.sort(reverse=True)
 	changed_pixels = changed_pixels[:len(changed_pixels) // 10]
 	pixels_map = {}
@@ -111,7 +111,7 @@ def one_frame_processing(frame_i):
 		if not (pixel.row in pixels_map):
 			pixels_map[pixel.row] = {}
 		pixels_map[pixel.row][pixel.col] = pixel
-	
+
 	border_list = []
 	for key_row in pixels_map:
 		row_map = pixels_map[key_row]
@@ -125,8 +125,8 @@ def one_frame_processing(frame_i):
 	for pixel in border_list:
 		pixel_col = pixel.col
 		pixel_row = pixel.row
-		if (pixel_row < frame_height - 1 and pixel_row > 0
-				and pixel_col < frame_width - 1 and pixel_col > 0):
+		if (pixel_row < frame_height - 1 and pixel_row > 0 and
+			pixel_col < frame_width - 1 and pixel_col > 0):
 			draw_fat_pixel(cur_target_frame, pixel.row, pixel.col)
 		else:
 			draw_pixel(cur_target_frame[pixel_row][pixel_col])
@@ -144,7 +144,7 @@ print(finish - start)
 
 size = frame_width, frame_height
 out = cv2.VideoWriter('output.mp4', cv2.VideoWriter_fourcc(*'mp4v'),
-					  fps, (size[0], size[1]), isColor=3)
+	fps, (size[0], size[1]), isColor=3)
 for i in range(frames_count):
 	data = buf2[i]
 	out.write(data)
