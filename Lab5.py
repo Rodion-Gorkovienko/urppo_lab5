@@ -87,7 +87,7 @@ def one_frame_processing(frame_i):
 	cur_frame = buf1[frame_i].copy()
 	mapped_frame = buf1[frame_i - n].copy()
 	cur_target_frame = buf2[frame_i]
-	sub_mtx = np.subtract(cur_frame, mapped_frame, dtype = np.dtype('int16'))
+	sub_mtx = np.subtract(cur_frame, mapped_frame, dtype=np.dtype('int16'))
 	changed_pixels = []
 	for str_i in range(frame_height):
 		for col_i in range(frame_width):
@@ -101,46 +101,50 @@ def one_frame_processing(frame_i):
 			if cur_sub[0] >= 10 or cur_sub[1] >= 10 or cur_sub[2] >= 10:
 				# cur_target_pixel[0] = 0
 				# cur_target_pixel[1] = 0
-        		# cur_target_pixel[2] = 255
-        		changed_pixels.append(Changed_pixel(str_i, col_i, 
-					np.sqrt(np.sum(np.square(cur_sub)))))
+				# cur_target_pixel[2] = 255
+				changed_pixels.append(Changed_pixel(str_i, col_i,
+													np.sqrt(np.sum(np.square(cur_sub)))))
 	changed_pixels.sort(reverse=True)
-	changed_pixels = changed_pixels[:len(changed_pixels)//10]
+	changed_pixels = changed_pixels[:len(changed_pixels) // 10]
 	pixels_map = {}
 	for pixel in changed_pixels:
-		if not(pixel.row in pixels_map):
+		if not (pixel.row in pixels_map):
 			pixels_map[pixel.row] = {}
 		pixels_map[pixel.row][pixel.col] = pixel
+	
 	border_list = []
 	for key_row in pixels_map:
-    	row_map = pixels_map[key_row]
+		row_map = pixels_map[key_row]
 		for key_col in row_map:
 			row_map[key_col].check_border(pixels_map, border_list)
 	# for pixel in changed_pixels:
 	#  pixel_col = pixel.col
 	#  pixel_row = pixel.row
 	#  draw_pixel2(cur_target_frame[pixel_row][pixel_col])
-  
+
 	for pixel in border_list:
 		pixel_col = pixel.col
 		pixel_row = pixel.row
-		if pixel_row < frame_height-1 and pixel_row > 0 and pixel_col < frame_width-1 and pixel_col > 0:
+		if (pixel_row < frame_height - 1 and pixel_row > 0
+				and pixel_col < frame_width - 1 and pixel_col > 0):
 			draw_fat_pixel(cur_target_frame, pixel.row, pixel.col)
 		else:
 			draw_pixel(cur_target_frame[pixel_row][pixel_col])
 # ALG\
 
+
 arr = np.arange(n, frames_count)
 start = time.time()
-# Create a ThreadPoolExecutor with the specified number of threads 
-with ThreadPoolExecutor(max_workers=n_threads) as executor: 
-	# Use the executor to map the function to the array in parallel 
+# Create a ThreadPoolExecutor with the specified number of threads
+with ThreadPoolExecutor(max_workers=n_threads) as executor:
+	# Use the executor to map the function to the array in parallel
 	executor.map(one_frame_processing, arr)
 finish = time.time()
 print(finish - start)
 
 size = frame_width, frame_height
-out = cv2.VideoWriter('output.mp4', cv2.VideoWriter_fourcc(*'mp4v'), fps, (size[0], size[1]), isColor = 3)
+out = cv2.VideoWriter('output.mp4', cv2.VideoWriter_fourcc(*'mp4v'),
+					  fps, (size[0], size[1]), isColor=3)
 for i in range(frames_count):
 	data = buf2[i]
 	out.write(data)
