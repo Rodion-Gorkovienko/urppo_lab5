@@ -27,5 +27,5 @@ jobs:
     - name: install pycodestyle lib
       run: pip install pycodestyle
     - name: pycodestyle check
-      run: pycodestyle −−max−doc−length = 150
+      run: pycodestyle −−max−doc−length=150
 
