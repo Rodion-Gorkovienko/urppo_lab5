@@ -15,15 +15,15 @@ frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 frames_count = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
 fps = int(video.get(cv2.CAP_PROP_FPS))
 
-buf1 = np.empty((frames_count, frame_height, frame_width, 3), 
+buf1 = np.empty((frames_count, frame_height, frame_width, 3),
                 np.dtype('uint8'))
-buf2 = np.empty((frames_count, frame_height, frame_width, 3), 
+buf2 = np.empty((frames_count, frame_height, frame_width, 3),
                 np.dtype('uint8'))
 frame_i = 0
 ret = True
 print(frame_width, frame_height, frames_count, fps)
 
-while (frame_i < frames_count  and ret):
+while (frame_i < frames_count and ret):
 	ret, buf1[frame_i] = video.read()
 	frame_i += 1
 buf2 = buf1.copy()
@@ -37,10 +37,10 @@ class Changed_pixel:
 
 	def check_border(self, map, border_list):
 		row_map = map[self.row]
-		if not(self.col + 1 in row_map and self.col - 1 in row_map):
+		if not (self.col + 1 in row_map and self.col - 1 in row_map):
 			border_list.append(self)
 		elif self.row + 1 in map and self.row - 1 in map:
-			if not(self.col in map[self.row + 1] and self.col in map[self.row - 1]):
+			if not (self.col in map[self.row + 1] and self.col in map[self.row - 1]):
 				border_list.append(self)
 		else:
 			border_list.append(self)
@@ -60,15 +60,18 @@ class Changed_pixel:
 	def __le__(self, other):
 		return self.distance <= other.distance
 
+
 def draw_pixel(pixel):
 	pixel[0] = 0
 	pixel[1] = 0
 	pixel[2] = 255
 
+
 def draw_pixel2(pixel):
 	pixel[0] = 0
 	pixel[1] = 255
 	pixel[2] = 255
+
 
 def draw_fat_pixel(cur_target_frame, row, col):
 	draw_pixel(cur_target_frame[row][col])
@@ -76,6 +79,7 @@ def draw_fat_pixel(cur_target_frame, row, col):
 	draw_pixel(cur_target_frame[row - 1][col])
 	draw_pixel(cur_target_frame[row][col + 1])
 	draw_pixel(cur_target_frame[row][col - 1])
+
 
 # ALG
 def one_frame_processing(frame_i):
