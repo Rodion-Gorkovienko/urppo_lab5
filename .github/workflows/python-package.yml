@@ -1,0 +1,31 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name : pycodestyle check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions / checkout@v3
+    - name: Python set up
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.8
+    #Install requirements
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: install pycodestyle lib
+      run: pip install pycodestyle
+    - name: pycodestyle check
+      run: pycodestyle −−max−doc−length =150
+
