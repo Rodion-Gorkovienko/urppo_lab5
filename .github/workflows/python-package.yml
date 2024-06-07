@@ -27,5 +27,5 @@ jobs:
     - name: install pycodestyle lib
       run: pip install pycodestyle
     - name: pycodestyle check
-      run: pycodestyle --ignore=W191./
+      run: pycodestyle --ignore=W191 ./
 
