@@ -14,7 +14,7 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions / checkout@v3
+    - uses: actions/checkout@v3
     - name: Python set up
       uses: actions/setup-python@v4
       with:
@@ -27,5 +27,5 @@ jobs:
     - name: install pycodestyle lib
       run: pip install pycodestyle
     - name: pycodestyle check
-      run: pycodestyle −−max−doc−length =150
+      run: pycodestyle −−max−doc−length = 150
 
